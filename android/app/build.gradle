@@ -1,0 +1,71 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    compileSdkVersion 34 // Update to the latest compileSdkVersion
+    buildToolsVersion "31.0.0" // Update to the latest buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.example.untitled3"
+        minSdkVersion 21 // Update to your desired minSdkVersion
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 31 // Update to your desired targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        // Specify namespace for generated R and BuildConfig classes
+        namespace 'com.example.untitled3' // Replace with your desired namespace
+        // Enable multidex
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            // Update with your signing configuration if needed
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        // Add the deprecation flag
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation 'androidx.multidex:multidex:2.0.1' // Add multidex dependency
+}
